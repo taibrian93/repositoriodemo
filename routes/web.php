@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IdiomaController;
+use App\Http\Controllers\NodoController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\TipoFormatoController;
 
@@ -40,4 +41,20 @@ Route::group([ "middleware" => ['auth:sanctum', 'verified'] ], function() {
     Route::get('/idioma', [ IdiomaController::class, "index_view" ])->name('idioma');
     Route::view('/idioma/new', "pages.idioma.idioma-new")->name('idioma.new');
     Route::view('/idioma/edit/{idiomaId}', "pages.idioma.idioma-edit")->name('idioma.edit');
+
+    Route::get('/nodo', [ NodoController::class, "index_view" ])->name('nodo');
+    Route::view('/nodo/new', "pages.nodo.nodo-new")->name('nodo.new');
+    Route::view('/nodo/edit/{nodoId}', "pages.nodo.nodo-edit")->name('nodo.edit');
+
+    Route::get('/departamento', [ DepartamentoController::class, "index_view" ])->name('departamento');
+    Route::view('/departamento/new', "pages.departamento.departamento-new")->name('departamento.new');
+    Route::view('/departamento/edit/{departamentoId}', "pages.departamento.departamento-edit")->name('departamento.edit');
+
+    Route::get('/provincia', [ ProvinciaController::class, "index_view" ])->name('provincia');
+    Route::view('/provincia/new', "pages.provincia.provincia-new")->name('provincia.new');
+    Route::view('/provincia/edit/{provinciaId}', "pages.provincia.provincia-edit")->name('provincia.edit');
+
+    Route::get('/distrito', [ DistritoController::class, "index_view" ])->name('distrito');
+    Route::view('/distrito/new', "pages.distrito.distrito-new")->name('distrito.new');
+    Route::view('/distrito/edit/{distritoId}', "pages.distrito.distrito-edit")->name('distrito.edit');
 });

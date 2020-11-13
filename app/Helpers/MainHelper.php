@@ -34,10 +34,9 @@ if (!function_exists('create_button')) {
         $action = str_replace($model, "", $action);
 
         return [
-            'submit_text' => ($action == "update") ? "Update" : "Submit",
-            'submit_response' => ($action == "update") ? "Updated." : "Submited.",
-            'submit_response_notyf' => ($action == "update") ?
-                "Dato ".$model." Actualización Exitosa" : "Dato ".$model." Agregado Exitosamente"
+            'submit_text' => ($action == "update") ? "Actualizar" : "Enviar",
+            'submit_response' => ($action == "update") ? "Actualizado." : "Enviado.",
+            'submit_response_notyf' => ($action == "update") ? "Dato ".$model." Actualización Exitosa" : "Dato ".$model." Agregado Exitosamente"
         ];
     }
 }

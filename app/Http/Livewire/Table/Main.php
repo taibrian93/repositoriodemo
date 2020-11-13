@@ -110,6 +110,25 @@ class Main extends Component
                 ];
             break;
 
+            case 'nodo':
+                $nodos = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.nodo',
+                    "nodos" => $nodos,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('nodo.new'),
+                            'create_new_text' => 'Crear nodo',
+                            'export' => '#',
+                            'export_text' => 'Exportar'
+                        ]
+                    ])
+                ];
+            break;
+
             default:
                 # code...
             break;

@@ -8,6 +8,7 @@ $links = [
     [
         "href" => [
             [
+                "title_link" => "Usuario",
                 "icono" => "fas fa-users",
                 "section_text" => "Usuario",
                 "section_list" => [
@@ -29,6 +30,7 @@ $links = [
             //     ]
             // ],
             [
+                "title_link" => "Tipo Documento",
                 "icono" => "fas fa-file-alt",
                 "section_text" => "Tipo Documento",
                 "section_list" => [
@@ -37,6 +39,7 @@ $links = [
                 ]
             ],
             [
+                "title_link" => "Tipo Formato",
                 "icono" => "fas fa-file-contract",
                 "section_text" => "Tipo Formato",
                 "section_list" => [
@@ -51,6 +54,7 @@ $links = [
     [
         "href" => [
             [
+                "title_link" => "Idioma",
                 "icono" => "fas fa-language",
                 "section_text" => "Idioma",
                 "section_list" => [
@@ -60,6 +64,54 @@ $links = [
             ]
         ],
         "text" => "Idiomas",
+        "is_multi" => true,
+    ],
+    [
+        "href" => [
+            [
+                "title_link" => "Nodo",
+                "icono" => "fas fa-people-carry",
+                "section_text" => "Nodo",
+                "section_list" => [
+                    ["href" => "nodo", "text" => "Listar"],
+                    ["href" => "nodo.new", "text" => "Crear"]
+                ]
+            ]
+        ],
+        "text" => "Nodos",
+        "is_multi" => true,
+    ],
+    [
+        "href" => [
+            [
+                "title_link" => "Departamento",
+                "icono" => "fas fa-globe-americas",
+                "section_text" => "Departamento",
+                "section_list" => [
+                    ["href" => "departamento", "text" => "Listar"],
+                    ["href" => "departamento.new", "text" => "Crear"]
+                ]
+            ],
+            [
+                "title_link" => "Provincia",
+                "icono" => "fas fa-map-marked-alt",
+                "section_text" => "Provincia",
+                "section_list" => [
+                    ["href" => "provincia", "text" => "Listar"],
+                    ["href" => "provincia.new", "text" => "Crear"]
+                ]
+            ],
+            [
+                "title_link" => "Distrito",
+                "icono" => "fas fa-building",
+                "section_text" => "Distrito",
+                "section_list" => [
+                    ["href" => "distrito", "text" => "Listar"],
+                    ["href" => "distrito.new", "text" => "Crear"]
+                ]
+            ]
+        ],
+        "text" => "Coberturas",
         "is_multi" => true,
     ],
     
@@ -95,7 +147,7 @@ $navigation_links = array_to_object($links);
                     @endphp
 
                     <li class="dropdown {{ ($is_active) ? 'active' : '' }}">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="{{ $section->icono }}"></i> <span>{{ $section->section_text }}</span></a>
+                        <a title="{{ $section->title_link }}" href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="{{ $section->icono }}"></i> <span>{{ $section->section_text }}</span></a>
                         <ul class="dropdown-menu">
                             @foreach ($section->section_list as $child)
                                 <li class="{{ Request::routeIs($child->href) ? 'active' : '' }}"><a class="nav-link" href="{{ route($child->href) }}">{{ $child->text }}</a></li>
