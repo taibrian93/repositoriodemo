@@ -43,9 +43,8 @@
                 <small>Estado</small>
                 <x-select2-component id="estado" class="mt-1 block w-full form-control shadow-none" wire:model.defer="departamento.estado">
                     @slot('option')
-                        <option value="" >Seleccionar</option>
-                        <option value="1" >Disponible</option>
-                        <option value="0" >No Disponible</option>
+                        <option value="1">Disponible</option>
+                        <option value="0">No Disponible</option>
                     @endslot
                 </x-select2-component>
                 <x-jet-input-error for="departamento.estado" class="mt-2" />   
