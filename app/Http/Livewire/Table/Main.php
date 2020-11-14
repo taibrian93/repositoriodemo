@@ -129,6 +129,44 @@ class Main extends Component
                 ];
             break;
 
+            case 'departamento':
+                $departamentos = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.departamento',
+                    "departamentos" => $departamentos,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('departamento.new'),
+                            'create_new_text' => 'Crear departamento',
+                            'export' => '#',
+                            'export_text' => 'Exportar'
+                        ]
+                    ])
+                ];
+            break;
+
+            case 'provincia':
+                $provincias = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.provincia',
+                    "provincias" => $provincias,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('provincia.new'),
+                            'create_new_text' => 'Crear provincia',
+                            'export' => '#',
+                            'export_text' => 'Exportar'
+                        ]
+                    ])
+                ];
+            break;
+
             default:
                 # code...
             break;

@@ -16,8 +16,6 @@ class TipoDocumentoModel extends Model
 
     public static function search($query)
     {
-        return empty($query) ? static::query()
-            : static::where('descripcion', 'like', '%'.$query.'%')
-                ->orWhere('codigo', 'like', '%'.$query.'%');
+        return empty($query) ? static::query() : static::where('descripcion', 'like', '%'.$query.'%')->orWhere('codigo', 'like', '%'.$query.'%');
     }
 }

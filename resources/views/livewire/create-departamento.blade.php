@@ -1,7 +1,7 @@
 <div id="form-create">
     <x-jet-form-section :submit="$action" class="mb-4">
         <x-slot name="title">
-            {{ __('Nodo') }}
+            {{ __('Departamento') }}
         </x-slot>
 
         <x-slot name="description">
@@ -12,43 +12,43 @@
             <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="descripcion" value="{{ __('Descripción') }}" />
                 <small>Descripción</small>
-                <x-jet-input id="descripcion" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="nodo.descripcion" />
-                <x-jet-input-error for="nodo.descripcion" class="mt-2" />
+                <x-jet-input id="descripcion" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="departamento.descripcion" />
+                <x-jet-input-error for="departamento.descripcion" class="mt-2" />
             </div>
 
-            <div class="form-group col-span-6 sm:col-span-5">
+            {{-- <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="observacion" value="{{ __('Observación') }}" />
                 <small>Observación</small>
-                <x-jet-input id="observacion" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="nodo.observacion" />
-                <x-jet-input-error for="nodo.observacion" class="mt-2" />
-            </div>
+                <x-jet-input id="observacion" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="departamento.observacion" />
+                <x-jet-input-error for="departamento.observacion" class="mt-2" />
+            </div> --}}
 
             <div class="form-group col-span-6 sm:col-span-5">
-                <x-jet-label for="codigo" value="{{ __('Código') }}" />
+                <x-jet-label for="codigoDepartamental" value="{{ __('Código') }}" />
                 <small>Código</small>
-                <x-jet-input id="codigo" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="nodo.codigo" />
-                <x-jet-input-error for="nodo.codigo" class="mt-2" />
+                <x-jet-input id="codigoDepartamental" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="departamento.codigoDepartamental" />
+                <x-jet-input-error for="departamento.codigoDepartamental" class="mt-2" />
             </div>
 
 
             {{-- <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="estado" value="{{ __('Estado') }}" />
                 <small>Estado</small>
-                <x-jet-input id="estado" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="nodo.estado" />
-                <x-jet-input-error for="nodo.estado" class="mt-2" />
+                <x-jet-input id="estado" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="departamento.estado" />
+                <x-jet-input-error for="departamento.estado" class="mt-2" />
             </div> --}}
 
             <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="estado" value="{{ __('Estado') }}" />
                 <small>Estado</small>
-                <x-select2-component id="estado" class="mt-1 block w-full form-control shadow-none" wire:model.defer="nodo.estado">
+                <x-select2-component id="estado" class="mt-1 block w-full form-control shadow-none" wire:model.defer="departamento.estado">
                     @slot('option')
                         <option value="" >Seleccionar</option>
                         <option value="1" >Disponible</option>
                         <option value="0" >No Disponible</option>
                     @endslot
                 </x-select2-component>
-                <x-jet-input-error for="nodo.estado" class="mt-2" /> 
+                <x-jet-input-error for="departamento.estado" class="mt-2" />   
             </div>
 
             

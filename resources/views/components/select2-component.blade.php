@@ -1,3 +1,4 @@
-<select class="form-control">
+{{-- @dd($attributes) --}}
+<select {{ $attributes }}>
     {{ $option }}
 </select>

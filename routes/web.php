@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\DistritoController;
 use App\Http\Controllers\IdiomaController;
 use App\Http\Controllers\NodoController;
+use App\Http\Controllers\ProvinciaController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\TipoFormatoController;
 

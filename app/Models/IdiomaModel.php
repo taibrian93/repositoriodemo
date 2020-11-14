@@ -15,9 +15,6 @@ class IdiomaModel extends Model
 
     public static function search($query)
     {
-        return empty($query) ? static::query()
-            : static::where('descripcion', 'like', '%'.$query.'%')
-                ->orWhere('codigo', 'like', '%'.$query.'%')
-                ->orWhere('iso_639_1', 'like', '%'.$query.'%');
+        return empty($query) ? static::query() : static::where('descripcion', 'like', '%'.$query.'%')->orWhere('codigo', 'like', '%'.$query.'%')->orWhere('iso_639_1', 'like', '%'.$query.'%');
     }
 }
