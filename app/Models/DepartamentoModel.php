@@ -18,4 +18,8 @@ class DepartamentoModel extends Model
     {
         return empty($query) ? static::query() : static::where('descripcion', 'like', '%'.$query.'%')->orWhere('codigoDepartamental', 'like', '%'.$query.'%');
     }
+
+    public function provincias(){
+        return $this->hasMany('App\Models\ProvinciaModel');
+    }
 }

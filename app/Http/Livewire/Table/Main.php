@@ -130,9 +130,7 @@ class Main extends Component
             break;
 
             case 'departamento':
-                $departamentos = $this->model::search($this->search)
-                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                    ->paginate($this->perPage);
+                $departamentos = $this->model::search($this->search)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate($this->perPage);
 
                 return [
                     "view" => 'livewire.table.departamento',
@@ -149,9 +147,7 @@ class Main extends Component
             break;
 
             case 'provincia':
-                $provincias = $this->model::search($this->search)
-                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                    ->paginate($this->perPage);
+                $provincias = $this->model::search($this->search)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate($this->perPage);
 
                 return [
                     "view" => 'livewire.table.provincia',
@@ -160,6 +156,23 @@ class Main extends Component
                         'href' => [
                             'create_new' => route('provincia.new'),
                             'create_new_text' => 'Crear provincia',
+                            'export' => '#',
+                            'export_text' => 'Exportar'
+                        ]
+                    ])
+                ];
+            break;
+
+            case 'distrito':
+                $distritos = $this->model::search($this->search)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.distrito',
+                    "distritos" => $distritos,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('distrito.new'),
+                            'create_new_text' => 'Crear Distrito',
                             'export' => '#',
                             'export_text' => 'Exportar'
                         ]
