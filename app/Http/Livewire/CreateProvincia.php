@@ -83,7 +83,7 @@ class CreateProvincia extends Component
     {
         if (!!$this->provinciaId) {
             $provincia = ProvinciaModel::find($this->provinciaId);
-
+            
             $this->provincia = [
                 // "idDublincore" => $provincia->idDublincore,
                 "idDepartamento" => $provincia->idDepartamento,

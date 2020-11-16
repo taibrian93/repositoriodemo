@@ -11,7 +11,7 @@ class DistritoModel extends Model
 
     protected $table = "distrito";
 
-    protected $fillable = ['idProvincia','descripcion', 'codigoProvincial', 'codigo', 'estado'];
+    protected $fillable = ['idProvincia','descripcion', 'codigoDistrital', 'codigo', 'estado'];
 
     public static function search($query)
     {

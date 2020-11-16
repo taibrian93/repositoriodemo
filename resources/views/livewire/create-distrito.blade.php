@@ -9,6 +9,37 @@
         </x-slot>
 
         <x-slot name="form">
+
+            <div class="form-group col-span-6 sm:col-span-5">
+                <x-jet-label for="departamento" value="{{ __('Departamento') }}" />
+                <small>Departamento</small>
+                <x-select2-component id="departamento" class="mt-1 block w-full form-control shadow-none" wire:model.defer="distrito.idDepartamento" wire:model="departamentoCodigo" wire:change="getCodigoDepartamento">
+                    @slot('option')
+                        @foreach ($departamentos as $departamento)
+                            <option value="{{ $departamento->id }}">{{ $departamento->descripcion }}</option>
+                        @endforeach
+                    @endslot
+                </x-select2-component>
+                <x-jet-input-error for="distrito.idDepartamento" class="mt-2" />   
+            </div>
+
+            <div class="form-group col-span-6 sm:col-span-5">
+                <x-jet-label for="provincia" value="{{ __('Provincia') }}" />
+                <small>Provincia</small>
+                <x-select2-component id="provincia" class="mt-1 block w-full form-control shadow-none" wire:model.defer="distrito.idProvincia" wire:model="provinciaCodigo" wire:change="getCodigoProvincia">
+                    @slot('option')
+                        @if (isset($provincias))
+                            @foreach ($provincias as $provincia)
+                                <option value="{{ $provincia->id }}">{{ $provincia->descripcion }}</option>
+                            @endforeach
+                        {{-- //@else --}}
+                            
+                        @endif
+                    @endslot
+                </x-select2-component>
+                <x-jet-input-error for="distrito.idProvincia" class="mt-2" />   
+            </div>
+
             <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="descripcion" value="{{ __('Descripción') }}" />
                 <small>Descripción</small>
@@ -24,10 +55,17 @@
             </div> --}}
 
             <div class="form-group col-span-6 sm:col-span-5">
-                <x-jet-label for="codigoDistrital" value="{{ __('Código') }}" />
-                <small>Código</small>
-                <x-jet-input id="codigoDistrital" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="distrito.codigoDistrital" />
+                <x-jet-label for="codigoDistrital" value="{{ __('Codigo Distrital') }}" />
+                <small>Codigo Distrital</small>
+            <x-jet-input id="codigoDistrital" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="distrito.codigoDistrital" readonly />
                 <x-jet-input-error for="distrito.codigoDistrital" class="mt-2" />
+            </div>
+
+            <div class="form-group col-span-6 sm:col-span-5">
+                <x-jet-label for="codigo" value="{{ __('Codigo') }}" />
+                <small>Codigo</small>
+                <x-jet-input id="codigo" type="text" class="mt-1 block w-full form-control shadow-none"  wire:model.defer="distrito.codigo" wire:model="distritoCodigo" wire:keyup="getCodigoDistrito"/>
+                <x-jet-input-error for="distrito.codigo" class="mt-2" />
             </div>
 
 

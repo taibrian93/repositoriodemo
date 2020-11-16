@@ -18,7 +18,7 @@ class CreateDistritoTable extends Migration
             $table->unsignedBigInteger('idProvincia');
             $table->foreign('idProvincia')->references('id')->on('provincia')->onDelete('cascade')->onUpdate('cascade');
             $table->string('descripcion');
-            $table->char('codigoDistrital',4)->unique();
+            $table->char('codigoDistrital',6)->unique();
             $table->char('codigo',2);
             $table->timestamps();
             $table->boolean('estado');
