@@ -26,4 +26,8 @@ class ProvinciaModel extends Model
     public function distritos(){
         return $this->hasMany('App\Models\DistritoModel');
     }
+
+    public function archivos(){
+        return $this->hasMany('App\Models\RegistroArchivoModel');
+    }
 }

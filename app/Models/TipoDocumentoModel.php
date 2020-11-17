@@ -18,4 +18,8 @@ class TipoDocumentoModel extends Model
     {
         return empty($query) ? static::query() : static::where('descripcion', 'like', '%'.$query.'%')->orWhere('codigo', 'like', '%'.$query.'%');
     }
+
+    public function archivos(){
+        return $this->hasMany('App\Models\RegistroArchivoModel');
+    }
 }

@@ -21,4 +21,8 @@ class DistritoModel extends Model
     public function provincia(){
         return $this->belongsTo('App\Models\ProvinciaModel','idProvincia','id');
     }
+
+    public function archivos(){
+        return $this->hasMany('App\Models\RegistroArchivoModel');
+    }
 }

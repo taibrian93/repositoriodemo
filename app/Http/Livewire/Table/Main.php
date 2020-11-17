@@ -180,6 +180,23 @@ class Main extends Component
                 ];
             break;
 
+            case 'registroArchivo':
+                $registroArchivos = $this->model::search($this->search)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.registroArchivo',
+                    "registroArchivos" => $registroArchivos,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('registroArchivo.new'),
+                            'create_new_text' => 'Crear Registro Archivo',
+                            'export' => '#',
+                            'export_text' => 'Exportar'
+                        ]
+                    ])
+                ];
+            break;
+
             default:
                 # code...
             break;

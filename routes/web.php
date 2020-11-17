@@ -5,6 +5,7 @@ use App\Http\Controllers\DistritoController;
 use App\Http\Controllers\IdiomaController;
 use App\Http\Controllers\NodoController;
 use App\Http\Controllers\ProvinciaController;
+use App\Http\Controllers\RegistroArchivoController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\TipoFormatoController;
 
@@ -60,4 +61,8 @@ Route::group([ "middleware" => ['auth:sanctum', 'verified'] ], function() {
     Route::get('/distrito', [ DistritoController::class, "index_view" ])->name('distrito');
     Route::view('/distrito/new', "pages.distrito.distrito-new")->name('distrito.new');
     Route::view('/distrito/edit/{distritoId}', "pages.distrito.distrito-edit")->name('distrito.edit');
+
+    Route::get('/registroArchivo', [ RegistroArchivoController::class, "index_view" ])->name('registroArchivo');
+    Route::view('/registroArchivo/new', "pages.registroArchivo.registroArchivo-new")->name('registroArchivo.new');
+    Route::view('/registroArchivo/edit/{registroArchivoId}', "pages.registroArchivo.registroArchivo-edit")->name('registroArchivo.edit');
 });

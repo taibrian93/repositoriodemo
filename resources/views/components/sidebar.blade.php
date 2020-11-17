@@ -22,13 +22,15 @@ $links = [
     ],
     [
         "href" => [
-            // [
-            //     "section_text" => "Archivo",
-            //     "section_list" => [
-            //         ["href" => "archivo", "text" => "Listar"],
-            //         ["href" => "archivo.new", "text" => "Crear"]
-            //     ]
-            // ],
+            [
+                "title_link" => "Registro Archivo",
+                "icono" => "fas fa-file-import",
+                "section_text" => "Registro Archivo",
+                "section_list" => [
+                    ["href" => "registroArchivo", "text" => "Listar"],
+                    ["href" => "registroArchivo.new", "text" => "Crear"]
+                ]
+            ],
             [
                 "title_link" => "Tipo Documento",
                 "icono" => "fas fa-file-alt",

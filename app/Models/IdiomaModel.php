@@ -17,4 +17,8 @@ class IdiomaModel extends Model
     {
         return empty($query) ? static::query() : static::where('descripcion', 'like', '%'.$query.'%')->orWhere('codigo', 'like', '%'.$query.'%')->orWhere('iso_639_1', 'like', '%'.$query.'%');
     }
+
+    public function archivos(){
+        return $this->hasMany('App\Models\RegistroArchivoModel');
+    }
 }
