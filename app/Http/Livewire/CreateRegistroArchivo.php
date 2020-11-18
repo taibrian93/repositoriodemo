@@ -139,7 +139,38 @@ class CreateRegistroArchivo extends Component
 
         if (!!$this->registroArchivoId) {
 
-            $registroArchivo = RegistroArchivoModel::find($this->registroArchivoId);
+            $registroArchivo = DB::table('registroarchivo')
+            ->select('tipodocumento.codigo as cTD','tipoformato.codigo as cTF','tipoformato.codigo as cTF','idioma.codigo as cID','departamento.codigoDepartamental as cDP','provincia.codigo as cPR','distrito.codigo as cDI','nodo.codigo as cNO','registroarchivo.*')
+            ->leftJoin('tipodocumento', 'registroarchivo.idTipoDocumento', '=', 'tipodocumento.id')
+            ->leftJoin('tipoformato', 'registroarchivo.idTipoFormato', '=', 'tipoformato.id')
+            ->leftJoin('idioma', 'registroarchivo.idIdioma', '=', 'idioma.id')
+            ->leftJoin('departamento', 'registroarchivo.idDepartamento', '=', 'departamento.id')
+            ->leftJoin('provincia', 'registroarchivo.idProvincia', '=', 'provincia.id')
+            ->leftJoin('distrito', 'registroarchivo.idDistrito', '=', 'distrito.id')
+            ->leftJoin('nodo', 'registroarchivo.idDerecho', '=', 'nodo.id')
+            ->where('registroarchivo.id','=',$this->registroArchivoId)
+            ->first();
+
+            //dd($registroArchivo);
+
+            $this->departamentoCodigo = $registroArchivo->idDepartamento;
+            $this->codigoDepartamental = $registroArchivo->cDP;
+
+            $provincia = ProvinciaModel::where('idDepartamento',$registroArchivo->idDepartamento)->get();
+            $this->provincias = $provincia;
+            $this->provinciaCodigo = $registroArchivo->idProvincia;
+            $this->codigoProvincial = $registroArchivo->cPR;
+            
+            $distrito = DistritoModel::where('idProvincia',$registroArchivo->idProvincia)->get();
+            $this->distritos = $distrito;
+            $this->distritoCodigo = $registroArchivo->idDistrito;
+            $this->codigodistrital = $registroArchivo->cDI;
+
+            $this->codigoTipoDocumento = $registroArchivo->cTD;
+            $this->codigoTipoFormato = $registroArchivo->cTF;
+            $this->codigoIdioma = $registroArchivo->cID;
+            // $this->autorCodigo = $registroArchivo->c;
+            $this->codigoDerecho = $registroArchivo->cNO;
 
             $this->registroArchivo = [
                 'idTipoDocumento' => $registroArchivo->idTipoDocumento,
@@ -197,19 +228,20 @@ class CreateRegistroArchivo extends Component
             $this->provincias = $provincia;
             
             $this->codigoDepartamental = $departamento->codigoDepartamental;
-            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigoCobertura;
         } 
         else
         {
             $this->codigoDepartamental = '';
             $this->provincias = NULL;
-            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigoCobertura;
         }
     }
 
     public function getCodigoProvincia(){
+        $this->codigoDistrital = '';
         if ($this->provinciaCodigo != '') {
             
             $provincia = ProvinciaModel::select('id','codigo')->where('id','=',$this->provinciaCodigo)->first();
@@ -218,14 +250,14 @@ class CreateRegistroArchivo extends Component
             $this->distritos = $distrito;
             
             $this->codigoProvincial = $provincia->codigo;
-            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             //dd($codigoCobertura);
             $this->registroArchivo["codigo"] = $codigoCobertura;
         }
         else
         {
-            $this->codigoDistrital = '';
-            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $this->codigoProvincial = '';
+            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigoCobertura;
         }
     }
@@ -235,12 +267,14 @@ class CreateRegistroArchivo extends Component
             $distrito = DistritoModel::select('id','codigo')->where('id','=',$this->distritoCodigo)->first();
             $this->codigoDistrital = $distrito->codigo;
 
-            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigoCobertura;
         }
         else
         {
-            
+            $this->codigoDistrital = '';
+            $codigoCobertura = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+            $this->registroArchivo["codigo"] = $codigoCobertura;
         }
     }
 
@@ -249,12 +283,14 @@ class CreateRegistroArchivo extends Component
             $tipoDocumento = TipoDocumentoModel::select('id','codigo')->where('id','=',$this->tipoDocumentoCodigo)->first();
             $this->codigoTipoDocumento = $tipoDocumento->codigo;
 
-            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigo;
         }
         else
         {
-            
+            $this->codigoTipoDocumento = '';
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+            $this->registroArchivo["codigo"] = $codigo;
         }
     }
 
@@ -263,12 +299,14 @@ class CreateRegistroArchivo extends Component
             $tipoFormato = TipoFormatoModel::select('id','codigo')->where('id','=',$this->tipoFormatoCodigo)->first();
             $this->codigoTipoFormato = $tipoFormato->codigo;
 
-            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigo;
         }
         else
         {
-            
+            $this->codigoTipoFormato = '';
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+            $this->registroArchivo["codigo"] = $codigo;
         }
     }
 
@@ -277,12 +315,14 @@ class CreateRegistroArchivo extends Component
             $idioma = IdiomaModel::select('id','codigo')->where('id','=',$this->idiomaCodigo)->first();
             $this->codigoIdioma = $idioma->codigo;
 
-            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigo;
         }
         else
         {
-            
+            $this->codigoIdioma = '';
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+            $this->registroArchivo["codigo"] = $codigo;
         }
     }
 
@@ -303,12 +343,14 @@ class CreateRegistroArchivo extends Component
             $nodo = NodoModel::select('id','codigo')->where('id','=',$this->derechoCodigo)->first();
             $this->codigoDerecho = $nodo->codigo;
 
-            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->distritoCodigo.''.$this->codigoDerecho;
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
             $this->registroArchivo["codigo"] = $codigo;
         }
         else
         {
-            
+            $this->codigoDerecho = '';
+            $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+            $this->registroArchivo["codigo"] = $codigo;
         }
     }
     
