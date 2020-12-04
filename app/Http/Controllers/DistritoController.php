@@ -14,4 +14,9 @@ class DistritoController extends Controller
             'distrito' => DistritoModel::class
         ]);
     }
+
+    public function getDistrito(Request $request){
+        $distrito = DistritoModel::where('idProvincia',$request->idProvincia)->get();
+        echo json_encode($distrito);
+    }
 }

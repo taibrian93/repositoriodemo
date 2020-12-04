@@ -1,5 +1,5 @@
 {{-- @dd($attributes) --}}
 <select {{ $attributes }}>
-    <option value="">Seleccionar...</option>  
+    <option value="" >Seleccionar...</option>  
     {{ $option }}
 </select>

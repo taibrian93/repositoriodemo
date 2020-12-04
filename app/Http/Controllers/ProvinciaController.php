@@ -14,4 +14,9 @@ class ProvinciaController extends Controller
             'provincia' => ProvinciaModel::class
         ]);
     }
+
+    public function getProvincia(Request $request){
+        $provincia = ProvinciaModel::where('idDepartamento',$request->idDepartamento)->get();
+        echo json_encode($provincia);
+    }
 }

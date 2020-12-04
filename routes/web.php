@@ -58,9 +58,13 @@ Route::group([ "middleware" => ['auth:sanctum', 'verified'] ], function() {
     Route::view('/provincia/new', "pages.provincia.provincia-new")->name('provincia.new');
     Route::view('/provincia/edit/{provinciaId}', "pages.provincia.provincia-edit")->name('provincia.edit');
 
+    Route::post('/provincia/getProvincia', [ ProvinciaController::class, "getProvincia" ])->name('provincia.getProvincia');
+
     Route::get('/distrito', [ DistritoController::class, "index_view" ])->name('distrito');
     Route::view('/distrito/new', "pages.distrito.distrito-new")->name('distrito.new');
     Route::view('/distrito/edit/{distritoId}', "pages.distrito.distrito-edit")->name('distrito.edit');
+
+    Route::post('/distrito/getDistrito', [ DistritoController::class, "getDistrito" ])->name('distrito.getDistrito');
 
     Route::get('/registroArchivo', [ RegistroArchivoController::class, "index_view" ])->name('registroArchivo');
     Route::view('/registroArchivo/new', "pages.registroArchivo.registroArchivo-new")->name('registroArchivo.new');
