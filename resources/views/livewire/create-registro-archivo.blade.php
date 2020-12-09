@@ -33,7 +33,7 @@
             <div class="form-group col-span-6 sm:col-span-6">
                 <x-jet-label for="departamento" value="{{ __('Departamento') }}" />
                 <small>Departamento</small>
-                <x-select2-component id="departamento" class="mt-1 block w-full form-control shadow-none departamento">
+                <x-select2-component id="departamento" class="mt-1 block w-full form-control shadow-none departamento" wire:model.defer="registroArchivo.idDepartamento" >
                     @slot('option')
                         @foreach ($departamentos as $departamento)
                             <option value="{{ $departamento->id }}">{{ $departamento->descripcion }}</option>
@@ -61,7 +61,7 @@
             <div class="form-group col-span-6 sm:col-span-6">
                 <x-jet-label for="provincia" value="{{ __('Provincia') }}" />
                 <small>Provincia</small>
-                <x-select2-component id="provincia" class="mt-1 block w-full form-control shadow-none provincia" wire:model.defer="registroArchivo.idProvincia">
+                <x-select2-component id="provincia" class="mt-1 block w-full form-control shadow-none provincia" wire:model.defer="registroArchivo.idProvincia" >
                     @slot('option')
                         @if (isset($provincias))
                             @foreach ($provincias as $provincia)
@@ -91,7 +91,7 @@
             <div class="form-group col-span-6 sm:col-span-6">
                 <x-jet-label for="distrito" value="{{ __('Distrito') }}" />
                 <small>Distrito</small>
-                <x-select2-component id="distrito" class="mt-1 block w-full form-control shadow-none distrito" wire:model.defer="registroArchivo.idDistrito">
+                <x-select2-component id="distrito" class="mt-1 block w-full form-control shadow-none distrito" wire:model.defer="registroArchivo.idDistrito" >
                     @slot('option')
                         @if (isset($distritos))
                             @foreach ($distritos as $distrito)
@@ -248,7 +248,8 @@
                         // beforeSend: function() {
                         //     $('.provincia').append("<img src='{{ asset('images/loading.gif') }}' />").delay(10000).hide(0);
                         // },
-                        success: function(results) {		    
+                        success: function(results) {
+                            console.log(results);
                             if (results.length > 0) {
                                 results.forEach(function(result) {
                                     $('.provincia').append('<option value="'+result.id+'">'+result.descripcion+'</option>');

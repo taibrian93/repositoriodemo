@@ -218,7 +218,7 @@ class Main extends Component
         $data->delete();
         $this->emit("deleteResult", [
             "status" => true,
-            //"message" => "Data " . $this->name . " berhasil dihapus!"
+            "message" => "Data " . $this->name . " berhasil dihapus!"
         ]);
     }
 

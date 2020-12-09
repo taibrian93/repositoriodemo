@@ -16,6 +16,7 @@ use App\Models\RegistroArchivoModel;
 use App\Models\TipoDocumentoModel;
 use App\Models\TipoFormatoModel;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class CreateRegistroArchivo extends Component
 {
@@ -110,6 +111,8 @@ class CreateRegistroArchivo extends Component
             $this->registroArchivo['enlace']->store('public/archivos');
         }
 
+        dd($this->registroArchivo);
+
         $this->registroArchivo['enlace'] = $this->registroArchivo['enlace']->hashName();
         RegistroArchivoModel::create($this->registroArchivo);
 
@@ -195,6 +198,16 @@ class CreateRegistroArchivo extends Component
         $this->button = create_button($this->action, "registroArchivo");
     }
 
+    public function getProvincia(Request $request){
+        $departamento = DepartamentoModel::select('id','codigoDepartamental')->where('id','=',$request->idDepartamento)->first();
+        $this->codigoDepartamental = $departamento->codigoDepartamental;
+        // dd($this->codigoDepartamental);
+        
+        //$this->generarCodigo();
+        $provincia = ProvinciaModel::where('idDepartamento',$request->idDepartamento)->get();
+        echo json_encode($provincia);
+    }
+
     // public function departamentos(){
     //     return $departamentos = DepartamentoModel::all();  
     // }
@@ -223,18 +236,16 @@ class CreateRegistroArchivo extends Component
     {
         $this->codigoProvincial = '';
         if ($this->departamentoCodigo != '') {
-
             $departamento = DepartamentoModel::select('id','codigoDepartamental')->where('id','=',$this->departamentoCodigo)->first();
-            $provincia = ProvinciaModel::where('idDepartamento',$departamento->id)->get();
-            $this->provincias = $provincia;
-            
+            // $provincia = ProvinciaModel::where('idDepartamento',$departamento->id)->get();
+            // $this->provincias = $provincia;
             $this->codigoDepartamental = $departamento->codigoDepartamental;
             $this->generarCodigo();
         } 
         else
         {
             $this->codigoDepartamental = '';
-            $this->provincias = NULL;
+            // $this->provincias = NULL;
             $this->generarCodigo();
         }
     }
@@ -242,14 +253,11 @@ class CreateRegistroArchivo extends Component
     public function getCodigoProvincia(){
         $this->codigoDistrital = '';
         if ($this->provinciaCodigo != '') {
-            
             $provincia = ProvinciaModel::select('id','codigo')->where('id','=',$this->provinciaCodigo)->first();
-            $distrito = DistritoModel::where('idProvincia',$provincia->id)->get();
+            // $distrito = DistritoModel::where('idProvincia',$provincia->id)->get();
             //dd($distrito);
-            $this->distritos = $distrito;
-            
+            // $this->distritos = $distrito;
             $this->codigoProvincial = $provincia->codigo;
-            
             $this->generarCodigo();
         }
         else
@@ -263,7 +271,6 @@ class CreateRegistroArchivo extends Component
         if ($this->distritoCodigo != '') {
             $distrito = DistritoModel::select('id','codigo')->where('id','=',$this->distritoCodigo)->first();
             $this->codigoDistrital = $distrito->codigo;
-
             $this->generarCodigo();
         }
         else
@@ -333,6 +340,8 @@ class CreateRegistroArchivo extends Component
     public function generarCodigo(){
         $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
         $this->registroArchivo["codigo"] = $codigo;
+
+        dd($this->codigoDepartamental);
     }
     
     public function render()

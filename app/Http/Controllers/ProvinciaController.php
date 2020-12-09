@@ -15,8 +15,8 @@ class ProvinciaController extends Controller
         ]);
     }
 
-    public function getProvincia(Request $request){
-        $provincia = ProvinciaModel::where('idDepartamento',$request->idDepartamento)->get();
-        echo json_encode($provincia);
-    }
+    // public function getProvincia(Request $request){
+    //     $provincia = ProvinciaModel::where('idDepartamento',$request->idDepartamento)->get();
+    //     echo json_encode($provincia);
+    // }
 }
