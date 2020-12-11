@@ -25,7 +25,7 @@ class CreateRegistroArchivo extends Component
     public $action;
     public $button;
     public $registroArchivoId;
-    public $registroArchivo;
+    public $registroArchivo = [];
 
     public $tipoDocumentos;
     public $tipoDocumentoCodigo;
@@ -198,151 +198,127 @@ class CreateRegistroArchivo extends Component
         $this->button = create_button($this->action, "registroArchivo");
     }
 
-    public function getProvincia(Request $request){
-        $departamento = DepartamentoModel::select('id','codigoDepartamental')->where('id','=',$request->idDepartamento)->first();
-        $this->codigoDepartamental = $departamento->codigoDepartamental;
-        // dd($this->codigoDepartamental);
+    // public function getProvincia(Request $request){
+    //     $departamento = DepartamentoModel::select('id','codigoDepartamental')->where('id','=',$request->idDepartamento)->first();
+    //     $this->codigoDepartamental = $departamento->codigoDepartamental;
+    //     // dd($this->codigoDepartamental);
         
-        //$this->generarCodigo();
-        $provincia = ProvinciaModel::where('idDepartamento',$request->idDepartamento)->get();
-        echo json_encode($provincia);
-    }
-
-    // public function departamentos(){
-    //     return $departamentos = DepartamentoModel::all();  
+    //     //$this->generarCodigo();
+    //     $provincia = ProvinciaModel::where('idDepartamento',$request->idDepartamento)->get();
+    //     echo json_encode($provincia);
     // }
 
-    // public function tiposDocumentos(){
-    //     return $tipoDocumentos = TipoDocumentoModel::all();  
+    // public function getCodigoDepartamento()
+    // {
+    //     $this->codigoProvincial = '';
+    //     if ($this->departamentoCodigo != '') {
+    //         $departamento = DepartamentoModel::select('id','codigoDepartamental')->where('id','=',$this->departamentoCodigo)->first();
+    //         // $provincia = ProvinciaModel::where('idDepartamento',$departamento->id)->get();
+    //         // $this->provincias = $provincia;
+    //         $this->codigoDepartamental = $departamento->codigoDepartamental;
+    //         $this->generarCodigo();
+    //     } 
+    //     else
+    //     {
+    //         $this->codigoDepartamental = '';
+    //         // $this->provincias = NULL;
+    //         $this->generarCodigo();
+    //     }
     // }
 
-    // public function tiposFormatos(){
-    //     return $tipoFormatos = TipoFormatoModel::all();  
+    // public function getCodigoProvincia(){
+    //     $this->codigoDistrital = '';
+    //     if ($this->provinciaCodigo != '') {
+    //         $provincia = ProvinciaModel::select('id','codigo')->where('id','=',$this->provinciaCodigo)->first();
+    //         // $distrito = DistritoModel::where('idProvincia',$provincia->id)->get();
+    //         //dd($distrito);
+    //         // $this->distritos = $distrito;
+    //         $this->codigoProvincial = $provincia->codigo;
+    //         $this->generarCodigo();
+    //     }
+    //     else
+    //     {
+    //         $this->codigoProvincial = '';
+    //         $this->generarCodigo();
+    //     }
     // }
 
-    // public function idiomas(){
-    //     return $idiomas = IdiomaModel::all();  
+    // public function getCodigoDistrito(){
+    //     if ($this->distritoCodigo != '') {
+    //         $distrito = DistritoModel::select('id','codigo')->where('id','=',$this->distritoCodigo)->first();
+    //         $this->codigoDistrital = $distrito->codigo;
+    //         $this->generarCodigo();
+    //     }
+    //     else
+    //     {
+    //         $this->codigoDistrital = '';
+    //         $this->generarCodigo();
+    //     }
     // }
 
-    // public function autores(){
-    //     return $autores = User::all();  
+    // public function getCodigoTipoDocumento(){
+    //     if ($this->tipoDocumentoCodigo != '') {
+    //         $tipoDocumento = TipoDocumentoModel::select('id','codigo')->where('id','=',$this->tipoDocumentoCodigo)->first();
+    //         $this->codigoTipoDocumento = $tipoDocumento->codigo;
+
+    //         $this->generarCodigo();
+    //     }
+    //     else
+    //     {
+    //         $this->codigoTipoDocumento = '';
+    //         $this->generarCodigo();
+    //     }
     // }
 
-    // public function nodos(){
-    //     return $nodos = NodoModel::all();  
+    // public function getCodigoTipoFormato(){
+    //     if ($this->tipoFormatoCodigo != '') {
+    //         $tipoFormato = TipoFormatoModel::select('id','codigo')->where('id','=',$this->tipoFormatoCodigo)->first();
+    //         $this->codigoTipoFormato = $tipoFormato->codigo;
+
+    //         $this->generarCodigo();
+    //     }
+    //     else
+    //     {
+    //         $this->codigoTipoFormato = '';
+    //         $this->generarCodigo();
+    //     }
     // }
 
-    public function getCodigoDepartamento()
-    {
-        $this->codigoProvincial = '';
-        if ($this->departamentoCodigo != '') {
-            $departamento = DepartamentoModel::select('id','codigoDepartamental')->where('id','=',$this->departamentoCodigo)->first();
-            // $provincia = ProvinciaModel::where('idDepartamento',$departamento->id)->get();
-            // $this->provincias = $provincia;
-            $this->codigoDepartamental = $departamento->codigoDepartamental;
-            $this->generarCodigo();
-        } 
-        else
-        {
-            $this->codigoDepartamental = '';
-            // $this->provincias = NULL;
-            $this->generarCodigo();
-        }
-    }
+    // public function getCodigoIdioma(){
+    //     if ($this->idiomaCodigo != '') {
+    //         $idioma = IdiomaModel::select('id','codigo')->where('id','=',$this->idiomaCodigo)->first();
+    //         $this->codigoIdioma = $idioma->codigo;
 
-    public function getCodigoProvincia(){
-        $this->codigoDistrital = '';
-        if ($this->provinciaCodigo != '') {
-            $provincia = ProvinciaModel::select('id','codigo')->where('id','=',$this->provinciaCodigo)->first();
-            // $distrito = DistritoModel::where('idProvincia',$provincia->id)->get();
-            //dd($distrito);
-            // $this->distritos = $distrito;
-            $this->codigoProvincial = $provincia->codigo;
-            $this->generarCodigo();
-        }
-        else
-        {
-            $this->codigoProvincial = '';
-            $this->generarCodigo();
-        }
-    }
+    //         $this->generarCodigo();
+    //     }
+    //     else
+    //     {
+    //         $this->codigoIdioma = '';
+    //         $this->generarCodigo();
+    //     }
+    // }
 
-    public function getCodigoDistrito(){
-        if ($this->distritoCodigo != '') {
-            $distrito = DistritoModel::select('id','codigo')->where('id','=',$this->distritoCodigo)->first();
-            $this->codigoDistrital = $distrito->codigo;
-            $this->generarCodigo();
-        }
-        else
-        {
-            $this->codigoDistrital = '';
-            $this->generarCodigo();
-        }
-    }
+    // //NODOS
+    // public function getCodigoDerecho(){
+    //     if ($this->derechoCodigo != '') {
+    //         $nodo = NodoModel::select('id','codigo')->where('id','=',$this->derechoCodigo)->first();
+    //         $this->codigoDerecho = $nodo->codigo;
 
-    public function getCodigoTipoDocumento(){
-        if ($this->tipoDocumentoCodigo != '') {
-            $tipoDocumento = TipoDocumentoModel::select('id','codigo')->where('id','=',$this->tipoDocumentoCodigo)->first();
-            $this->codigoTipoDocumento = $tipoDocumento->codigo;
+    //         $this->generarCodigo();
+    //     }
+    //     else
+    //     {
+    //         $this->codigoDerecho = '';
+    //         $this->generarCodigo();
+    //     }
+    // }
 
-            $this->generarCodigo();
-        }
-        else
-        {
-            $this->codigoTipoDocumento = '';
-            $this->generarCodigo();
-        }
-    }
+    // public function generarCodigo(){
+    //     $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+    //     $this->registroArchivo["codigo"] = $codigo;
 
-    public function getCodigoTipoFormato(){
-        if ($this->tipoFormatoCodigo != '') {
-            $tipoFormato = TipoFormatoModel::select('id','codigo')->where('id','=',$this->tipoFormatoCodigo)->first();
-            $this->codigoTipoFormato = $tipoFormato->codigo;
-
-            $this->generarCodigo();
-        }
-        else
-        {
-            $this->codigoTipoFormato = '';
-            $this->generarCodigo();
-        }
-    }
-
-    public function getCodigoIdioma(){
-        if ($this->idiomaCodigo != '') {
-            $idioma = IdiomaModel::select('id','codigo')->where('id','=',$this->idiomaCodigo)->first();
-            $this->codigoIdioma = $idioma->codigo;
-
-            $this->generarCodigo();
-        }
-        else
-        {
-            $this->codigoIdioma = '';
-            $this->generarCodigo();
-        }
-    }
-
-    //NODOS
-    public function getCodigoDerecho(){
-        if ($this->derechoCodigo != '') {
-            $nodo = NodoModel::select('id','codigo')->where('id','=',$this->derechoCodigo)->first();
-            $this->codigoDerecho = $nodo->codigo;
-
-            $this->generarCodigo();
-        }
-        else
-        {
-            $this->codigoDerecho = '';
-            $this->generarCodigo();
-        }
-    }
-
-    public function generarCodigo(){
-        $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
-        $this->registroArchivo["codigo"] = $codigo;
-
-        dd($this->codigoDepartamental);
-    }
+    //     dd($this->codigoDepartamental);
+    // }
     
     public function render()
     {

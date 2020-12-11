@@ -59,7 +59,7 @@ Route::group([ "middleware" => ['auth:sanctum', 'verified'] ], function() {
     Route::view('/provincia/new', "pages.provincia.provincia-new")->name('provincia.new');
     Route::view('/provincia/edit/{provinciaId}', "pages.provincia.provincia-edit")->name('provincia.edit');
 
-    Route::post('/provincia/getProvincia', [ CreateRegistroArchivo::class, "getProvincia" ])->name('provincia.getProvincia');
+    Route::post('/provincia/getProvincia', [ ProvinciaController::class, "getProvincia" ])->name('provincia.getProvincia');
 
     Route::get('/distrito', [ DistritoController::class, "index_view" ])->name('distrito');
     Route::view('/distrito/new', "pages.distrito.distrito-new")->name('distrito.new');
