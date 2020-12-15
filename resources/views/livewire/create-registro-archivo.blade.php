@@ -117,19 +117,6 @@
             </div>
 
             <div class="form-group col-span-6 sm:col-span-6">
-                <x-jet-label for="tipoFormato" value="{{ __('Tipo Formato') }}" />
-                <small>Tipo Formato</small>
-                <x-select2-component id="tipoFormato" class="mt-1 block w-full form-control shadow-none tipoFormato" wire:model.defer="registroArchivo.idTipoFormato">
-                    @slot('option')
-                        @foreach ($tipoFormatos as $tipoFormato)
-                            <option value="{{ $tipoFormato->id }}" codFormato="{{ $tipoFormato->codigo }}">{{ $tipoFormato->descripcion }}</option>
-                        @endforeach
-                    @endslot
-                </x-select2-component>
-                <x-jet-input-error for="registroArchivo.idTipoFormato" class="mt-2" />   
-            </div>
-
-            <div class="form-group col-span-6 sm:col-span-6">
                 <x-jet-label for="documento" value="{{ __('Idioma') }}" />
                 <small>Idioma</small>
                 <x-select2-component id="idioma" class="mt-1 block w-full form-control shadow-none idioma" wire:model.defer="registroArchivo.idIdioma">
@@ -176,10 +163,10 @@
             </div>
 
             <div class="form-group col-span-6 sm:col-span-6">
-                <x-jet-label for="enlace" value="{{ __('Archivo') }}" />
+                <x-jet-label for="archivo" value="{{ __('Archivo') }}" />
                 <small>Archivo</small>
-                <x-jet-input id="enlace" type="file" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.enlace" />
-                <x-jet-input-error for="registroArchivo.enlace" class="mt-2" />
+                <x-jet-input id="archivo" type="file" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.archivo" />
+                <x-jet-input-error for="registroArchivo.archivo" class="mt-2" />
             </div>
 
             <div class="form-group col-span-6 sm:col-span-6" wire:ignore>
@@ -223,7 +210,7 @@
         $(document).ready(function() {
             var meta, codDepartamento = '', codProvincia = '', codDistrito = '', codDocumento = '', codFormato = '', codIdioma = '', codDerecho = '';
             meta = $("meta[name='csrf-token']").attr("content");
-            var lastId = @this.getLastId;
+            //var lastId = @this.getLastId;
             
             $('.departamento').on('change', function(){
                 var value;
@@ -297,10 +284,10 @@
                 codigo();
             });
 
-            $('.tipoFormato').on('change', function(){
-                codFormato = $(this).val() != '' ? $('option:selected', this).attr('codFormato') : '';
-                codigo();
-            });
+            // $('.tipoFormato').on('change', function(){
+            //     codFormato = $(this).val() != '' ? $('option:selected', this).attr('codFormato') : '';
+            //     codigo();
+            // });
 
             $('.idioma').on('change', function(){
                 codIdioma = $(this).val() != '' ? $('option:selected', this).attr('codIdioma') : '';
@@ -313,8 +300,7 @@
             });
 
             function codigo(){
-                
-                var codigoReg = codDepartamento+''+codProvincia+''+codDistrito+''+codDocumento+''+codFormato+''+codIdioma+''+codDerecho+''+lastId;
+                var codigoReg = codDepartamento+''+codProvincia+''+codDistrito+''+codDocumento+''+codFormato+''+codIdioma+''+codDerecho;
                 // $('.codigo').val(codigoReg);
                 @this.generarCodigo(codigoReg); 
             }

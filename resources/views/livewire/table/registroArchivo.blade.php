@@ -6,21 +6,25 @@
                     ID
                     @include('components.sort-icon', ['field' => 'id'])
                 </a></th> --}}
-                <th><a wire:click.prevent="sortBy('descripcion')" role="button" href="#">
+                <th><a wire:click.prevent="sortBy('titulo')" role="button" href="#">
                     Titulo
+                    @include('components.sort-icon', ['field' => 'titulo'])
+                </a></th>
+                <th><a wire:click.prevent="sortBy('descripcion')" role="button" href="#">
+                    Descripción
                     @include('components.sort-icon', ['field' => 'descripcion'])
                 </a></th>
-                <th><a wire:click.prevent="sortBy('codigoregistroArchivol')" role="button" href="#">
-                    Descripción
-                    @include('components.sort-icon', ['field' => 'codigoregistroArchivol'])
-                </a></th>
                 <th><a wire:click.prevent="sortBy('codigo')" role="button" href="#">
-                    Enlace
+                    Enlace / Codigo
                     @include('components.sort-icon', ['field' => 'codigo'])
                 </a></th>
-                <th><a wire:click.prevent="sortBy('codigo')" role="button" href="#">
-                    Codigo
-                    @include('components.sort-icon', ['field' => 'codigo'])
+                <th><a wire:click.prevent="sortBy('extensionArchivo')" role="button" href="#">
+                    Tipo Extensión
+                    @include('components.sort-icon', ['field' => 'extensionArchivo'])
+                </a></th>
+                <th><a wire:click.prevent="sortBy('sizeFile')" role="button" href="#">
+                    Tamaño Archivo
+                    @include('components.sort-icon', ['field' => 'sizeFile'])
                 </a></th>
                 <th><a wire:click.prevent="sortBy('created_at')" role="button" href="#">
                     Fecha Creación
@@ -35,8 +39,11 @@
                     {{-- <td>{{ $registroArchivo->id }}</td> --}}
                     <td>{{ $registroArchivo->titulo }}</td>
                     <td>{{ $registroArchivo->descripcion }}</td>
-                    <td>{{ $registroArchivo->enlace }}</td>
-                    <td>{{ $registroArchivo->codigo }}</td>
+                    <td>
+                        <a href="{{ url('storage/archivos/'. $registroArchivo->enlace) }}" target="_blank" rel="noopener noreferrer" download>{{ $registroArchivo->codigo }}</a>
+                    </td>
+                    <td>{{ $registroArchivo->extensionArchivo }}</td>
+                    <td>{{ $registroArchivo->sizeFile }}</td>
                     <td>{{ $registroArchivo->created_at->format('d M Y H:i') }}</td>
                     <td class="whitespace-no-wrap row-action--icon">
                         <a role="button" href="/registroArchivo/edit/{{ $registroArchivo->id }}" class="mr-3"><i class="fa fa-16px fa-pen"></i></a>

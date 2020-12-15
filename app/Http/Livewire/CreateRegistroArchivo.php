@@ -79,7 +79,7 @@ class CreateRegistroArchivo extends Component
 
         return array_merge([
             'registroArchivo.idTipoDocumento' => 'required',
-            'registroArchivo.idTipoFormato' => 'required',
+            //'registroArchivo.idTipoFormato' => 'required',
             'registroArchivo.idIdioma' => 'required',
             'registroArchivo.idDepartamento' => 'required',
             'registroArchivo.idProvincia' => 'required',
@@ -87,8 +87,8 @@ class CreateRegistroArchivo extends Component
             'registroArchivo.idAutor' => 'required',
             'registroArchivo.idDerecho' => 'required',
             'registroArchivo.titulo' => 'required',
-            'registroArchivo.descripcion' => 'required|min:3',
-            'registroArchivo.enlace' => 'required',
+            'registroArchivo.descripcion' => 'required|min:7',
+            'registroArchivo.archivo' => 'required',
             // 'registroArchivo.observacion' => 'required',
             //'registroArchivo.iso_639_1' => 'required|unique:registroArchivo,iso_639_1',
             'registroArchivo.codigo' => 'required|min:12|regex:/^[0-9]*$/|unique:registroArchivo,codigo',
@@ -101,24 +101,26 @@ class CreateRegistroArchivo extends Component
         $this->resetErrorBag();
         $this->validate();
 
-        // $password = $this->user['password'];
+        $year = date('Y');
+        $month = date('m');
+        $yearMonth = $year.'/'.$month;
 
-        // if ( !empty($password) ) {
-        //     $this->user['password'] = Hash::make($password);
-        // }
+        $this->registroArchivo['codigo'] = $this->registroArchivo['codigo'].''.$this->getLastIdRegistro();
 
-        
-        
-        if (!empty($this->registroArchivo['enlace'])) {
-            $this->registroArchivo['enlace']->store('public/archivos');
+        $this->registroArchivo['extensionArchivo'] = $this->registroArchivo['archivo']->extension();
+        $ext = $this->registroArchivo['extensionArchivo'];
+
+        if (!empty($this->registroArchivo['archivo'])) {
+            $this->registroArchivo['archivo']->storeAs('public/archivos/'.$year.'/'.$month, $this->registroArchivo['codigo'].'.'.$ext);
         }
 
         //dd($this->registroArchivo['enlace']);
-
-        $this->registroArchivo['enlace'] = $this->registroArchivo['enlace']->hashName();
-        $lastIdArchivoRegistro = DB::select("SHOW TABLE STATUS LIKE 'registroarchivo'");
-        $this->registroArchivo["codigo"] = ''.$lastIdArchivoRegistro;
-        dd($this->registroArchivo);
+        $this->registroArchivo['sizeFile'] = $this->registroArchivo['archivo']->getSize();
+        $this->registroArchivo['mimeType'] = $this->registroArchivo['archivo']->getMimeType();
+        
+        $this->registroArchivo['enlace'] = $yearMonth.'/'.$this->registroArchivo['codigo'].'.'.$ext;
+        
+        //dd($this->registroArchivo);
         RegistroArchivoModel::create($this->registroArchivo);
 
         $this->emit('saved');
@@ -141,7 +143,7 @@ class CreateRegistroArchivo extends Component
     {
         $this->departamentos = DepartamentoModel::all();
         $this->tipoDocumentos = TipoDocumentoModel::all();
-        $this->tipoFormatos = TipoFormatoModel::all();
+        //$this->tipoFormatos = TipoFormatoModel::all();
         $this->idiomas = IdiomaModel::all();
         $this->autores = User::all();
         $this->derechos = NodoModel::all();
@@ -149,9 +151,8 @@ class CreateRegistroArchivo extends Component
         if (!!$this->registroArchivoId) {
 
             $registroArchivo = DB::table('registroarchivo')
-            ->select('tipodocumento.codigo as cTD','tipoformato.codigo as cTF','tipoformato.codigo as cTF','idioma.codigo as cID','departamento.codigoDepartamental as cDP','provincia.codigo as cPR','distrito.codigo as cDI','nodo.codigo as cNO','registroarchivo.*')
+            ->select('tipodocumento.codigo as cTD','idioma.codigo as cID','departamento.codigoDepartamental as cDP','provincia.codigo as cPR','distrito.codigo as cDI','nodo.codigo as cNO','registroarchivo.*')
             ->leftJoin('tipodocumento', 'registroarchivo.idTipoDocumento', '=', 'tipodocumento.id')
-            ->leftJoin('tipoformato', 'registroarchivo.idTipoFormato', '=', 'tipoformato.id')
             ->leftJoin('idioma', 'registroarchivo.idIdioma', '=', 'idioma.id')
             ->leftJoin('departamento', 'registroarchivo.idDepartamento', '=', 'departamento.id')
             ->leftJoin('provincia', 'registroarchivo.idProvincia', '=', 'provincia.id')
@@ -176,14 +177,14 @@ class CreateRegistroArchivo extends Component
             $this->codigodistrital = $registroArchivo->cDI;
 
             $this->codigoTipoDocumento = $registroArchivo->cTD;
-            $this->codigoTipoFormato = $registroArchivo->cTF;
+            //$this->codigoTipoFormato = $registroArchivo->cTF;
             $this->codigoIdioma = $registroArchivo->cID;
             // $this->autorCodigo = $registroArchivo->c;
             $this->codigoDerecho = $registroArchivo->cNO;
 
             $this->registroArchivo = [
                 'idTipoDocumento' => $registroArchivo->idTipoDocumento,
-                'idTipoFormato' => $registroArchivo->idTipoFormato,
+                //'idTipoFormato' => $registroArchivo->idTipoFormato,
                 'idIdioma' => $registroArchivo->idIdioma,
                 'idDepartamento' => $registroArchivo->idDepartamento,
                 'idProvincia' => $registroArchivo->idProvincia,
@@ -199,9 +200,13 @@ class CreateRegistroArchivo extends Component
             ];
 
         }
-        $lastIdArchivoRegistro = DB::select("SHOW TABLE STATUS LIKE 'registroarchivo'");
-        $this->getLastId = $lastIdArchivoRegistro[0]->Auto_increment;
+        
         $this->button = create_button($this->action, "registroArchivo");
+    }
+
+    public function getLastIdRegistro(){
+        $lastId = DB::select("SHOW TABLE STATUS LIKE 'registroarchivo'");
+        return $this->getLastId = $lastId[0]->Auto_increment;
     }
 
     // public function getProvincia(Request $request){

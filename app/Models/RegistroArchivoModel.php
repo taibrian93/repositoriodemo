@@ -12,7 +12,7 @@ class RegistroArchivoModel extends Model
     protected $table = "registroarchivo";
     //protected $primaryKey = "id";
 
-    protected $fillable = ['idTipoDocumento','idTipoFormato','idIdioma','idDepartamento','idProvincia','idDistrito','idAutor','idDerecho','titulo', 'descripcion', 'enlace', 'codigo','estado'];
+    protected $fillable = ['idTipoDocumento','idIdioma','idDepartamento','idProvincia','idDistrito','idAutor','idDerecho','titulo', 'descripcion', 'enlace', 'mimeType', 'extensionArchivo', 'sizeFile', 'codigo','estado'];
 
     public static function search($query)
     {
@@ -30,6 +30,7 @@ class RegistroArchivoModel extends Model
     public function distrito(){
         return $this->belongsTo('App\Models\DistritoModel','idDistrito','id');
     }
+
     //autor
     public function user(){
         return $this->belongsTo('App\Models\User','idAutor','id');
@@ -39,9 +40,9 @@ class RegistroArchivoModel extends Model
         return $this->belongsTo('App\Models\TipoDocumentoModel','idTipoDocumento','id');
     }
 
-    public function formato(){
-        return $this->belongsTo('App\Models\TipoFormatoModel','idTipoFormato','id');
-    }
+    // public function formato(){
+    //     return $this->belongsTo('App\Models\TipoFormatoModel','idTipoFormato','id');
+    // }
 
     public function idioma(){
         return $this->belongsTo('App\Models\IdiomaModel','idIdioma','id');
