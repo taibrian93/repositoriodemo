@@ -27,6 +27,8 @@ class CreateRegistroArchivo extends Component
     public $registroArchivoId;
     public $registroArchivo = [];
 
+    public $getLastId;
+
     public $tipoDocumentos;
     public $tipoDocumentoCodigo;
     public $codigoTipoDocumento = '';
@@ -111,9 +113,12 @@ class CreateRegistroArchivo extends Component
             $this->registroArchivo['enlace']->store('public/archivos');
         }
 
-        dd($this->registroArchivo);
+        //dd($this->registroArchivo['enlace']);
 
         $this->registroArchivo['enlace'] = $this->registroArchivo['enlace']->hashName();
+        $lastIdArchivoRegistro = DB::select("SHOW TABLE STATUS LIKE 'registroarchivo'");
+        $this->registroArchivo["codigo"] = ''.$lastIdArchivoRegistro;
+        dd($this->registroArchivo);
         RegistroArchivoModel::create($this->registroArchivo);
 
         $this->emit('saved');
@@ -194,7 +199,8 @@ class CreateRegistroArchivo extends Component
             ];
 
         }
-        
+        $lastIdArchivoRegistro = DB::select("SHOW TABLE STATUS LIKE 'registroarchivo'");
+        $this->getLastId = $lastIdArchivoRegistro[0]->Auto_increment;
         $this->button = create_button($this->action, "registroArchivo");
     }
 
@@ -313,12 +319,11 @@ class CreateRegistroArchivo extends Component
     //     }
     // }
 
-    // public function generarCodigo(){
-    //     $codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
-    //     $this->registroArchivo["codigo"] = $codigo;
-
-    //     dd($this->codigoDepartamental);
-    // }
+    public function generarCodigo($codigo){
+        // ]$codigo = $this->codigoTipoDocumento.''.$this->codigoTipoFormato.''.$this->codigoIdioma.''.$this->codigoDepartamental.''.$this->codigoProvincial.''.$this->codigoDistrital.''.$this->codigoDerecho;
+        $this->registroArchivo["codigo"] = $codigo;
+        // dd($this->codigoDepartamental);
+    }
     
     public function render()
     {

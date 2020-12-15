@@ -221,8 +221,9 @@
     <script>
 
         $(document).ready(function() {
-            var meta, codDepartamento = '', codProvincia = '', codDistrito, codDocumento = '', codFormato = '', codIdioma = '', codDerecho = '';
+            var meta, codDepartamento = '', codProvincia = '', codDistrito = '', codDocumento = '', codFormato = '', codIdioma = '', codDerecho = '';
             meta = $("meta[name='csrf-token']").attr("content");
+            var lastId = @this.getLastId;
             
             $('.departamento').on('change', function(){
                 var value;
@@ -251,7 +252,7 @@
                                 $('.distrito').append('<option>No hay datos registrados</option>');
                             }
                         },
-                        cache: true
+                        cache: false
                     });
                 }
             });
@@ -281,7 +282,7 @@
                                 $('.distrito').append('<option>No hay datos registrados</option>');
                             }		                            
                         },
-                        cache: true
+                        cache: false
                     });
                 }
             });
@@ -312,9 +313,10 @@
             });
 
             function codigo(){
-                var codigoReg = codDepartamento+''+codProvincia+''+codDistrito+''+codDocumento+''+codFormato+''+codIdioma+''+codDerecho;
-                $('.codigo').val(codigoReg);
-                @this.registroArchivo['codigo'] = codigoReg; 
+                
+                var codigoReg = codDepartamento+''+codProvincia+''+codDistrito+''+codDocumento+''+codFormato+''+codIdioma+''+codDerecho+''+lastId;
+                // $('.codigo').val(codigoReg);
+                @this.generarCodigo(codigoReg); 
             }
         });
     </script>
