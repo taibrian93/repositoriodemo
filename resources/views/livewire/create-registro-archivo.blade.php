@@ -16,19 +16,6 @@
                 <x-jet-input id="titulo" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.titulo" />
                 <x-jet-input-error for="registroArchivo.titulo" class="mt-2" />
             </div>
-            
-            {{-- <div class="form-group col-span-6 sm:col-span-6">
-                <x-jet-label for="departamento" value="{{ __('Departamento') }}" />
-                <small>Departamento</small>
-                <x-select2-component id="departamento" class="mt-1 block w-full form-control shadow-none departamento" wire:model.defer="registroArchivo.idDepartamento" wire:model="departamentoCodigo" wire:change="getCodigoDepartamento">
-                    @slot('option')
-                        @foreach ($departamentos as $departamento)
-                            <option value="{{ $departamento->id }}">{{ $departamento->descripcion }}</option>
-                        @endforeach
-                    @endslot
-                </x-select2-component>
-                <x-jet-input-error for="registroArchivo.idDepartamento" class="mt-2" />   
-            </div> --}}
 
             <div class="form-group col-span-6 sm:col-span-6">
                 <x-jet-label for="departamento" value="{{ __('Departamento') }}" />
@@ -43,25 +30,10 @@
                 <x-jet-input-error for="registroArchivo.idDepartamento" class="mt-2" />   
             </div>
 
-            {{-- <div class="form-group col-span-6 sm:col-span-6">
+            <div class="form-group col-span-6 sm:col-span-6" >
                 <x-jet-label for="provincia" value="{{ __('Provincia') }}" />
                 <small>Provincia</small>
-                <x-select2-component id="provincia" class="mt-1 block w-full form-control shadow-none provincia" wire:model.defer="registroArchivo.idProvincia" wire:model="provinciaCodigo" wire:change="getCodigoProvincia">
-                    @slot('option')
-                        @if (isset($provincias))
-                            @foreach ($provincias as $provincia)
-                                <option value="{{ $provincia->id }}">{{ $provincia->descripcion }}</option>
-                            @endforeach                            
-                        @endif
-                    @endslot
-                </x-select2-component>
-                <x-jet-input-error for="registroArchivo.idProvincia" class="mt-2" />   
-            </div> --}}
-
-            <div class="form-group col-span-6 sm:col-span-6" wire:ignore>
-                <x-jet-label for="provincia" value="{{ __('Provincia') }}" />
-                <small>Provincia</small>
-                <x-select2-component id="provincia" class="mt-1 block w-full form-control shadow-none provincia" wire:model.defer="registroArchivo.idProvincia" >
+                <x-select2-component id="provincia" class="mt-1 block w-full form-control shadow-none provincia" wire:model.defer="registroArchivo.idProvincia" wire:ignore>
                     @slot('option')
                         @if (isset($provincias))
                             @foreach ($provincias as $provincia)
@@ -73,25 +45,10 @@
                 <x-jet-input-error for="registroArchivo.idProvincia" class="mt-2" />   
             </div>
 
-            {{-- <div class="form-group col-span-6 sm:col-span-6">
+            <div class="form-group col-span-6 sm:col-span-6" >
                 <x-jet-label for="distrito" value="{{ __('Distrito') }}" />
                 <small>Distrito</small>
-                <x-select2-component id="distrito" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.idDistrito" wire:model="distritoCodigo" wire:change="getCodigoDistrito">
-                    @slot('option')
-                        @if (isset($distritos))
-                            @foreach ($distritos as $distrito)
-                                <option value="{{ $distrito->id }}">{{ $distrito->descripcion }}</option>
-                            @endforeach
-                        @endif
-                    @endslot
-                </x-select2-component>
-                <x-jet-input-error for="registroArchivo.idProvincia" class="mt-2" />   
-            </div> --}}
-
-            <div class="form-group col-span-6 sm:col-span-6" wire:ignore>
-                <x-jet-label for="distrito" value="{{ __('Distrito') }}" />
-                <small>Distrito</small>
-                <x-select2-component id="distrito" class="mt-1 block w-full form-control shadow-none distrito" wire:model.defer="registroArchivo.idDistrito" >
+                <x-select2-component id="distrito" class="mt-1 block w-full form-control shadow-none distrito" wire:model.defer="registroArchivo.idDistrito" wire:ignore>
                     @slot('option')
                         @if (isset($distritos))
                             @foreach ($distritos as $distrito)
@@ -165,7 +122,8 @@
             <div class="form-group col-span-6 sm:col-span-6">
                 <x-jet-label for="archivo" value="{{ __('Archivo') }}" />
                 <small>Archivo</small>
-                <x-jet-input id="archivo" type="file" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.archivo" />
+                {{-- <x-jet-input id="archivo" type="file" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.archivo" /> --}}
+                <input id="archivo" type="file" class="mt-1 block w-full form-control shadow-none" wire:model.defer="registroArchivo.archivo">
                 <x-jet-input-error for="registroArchivo.archivo" class="mt-2" />
             </div>
 
@@ -208,7 +166,15 @@
     <script>
 
         $(document).ready(function() {
-            var meta, codDepartamento = '', codProvincia = '', codDistrito = '', codDocumento = '', codFormato = '', codIdioma = '', codDerecho = '';
+            var meta;
+            var codDepartamento = @this.codDepartamento != '' ? @this.codDepartamento : '';
+            var codProvincia = @this.codProvincia != '' ? @this.codProvincia : '';
+            var codDistrito = @this.codDistrito != '' ? @this.codDistrito : '';
+            var codDocumento = @this.codDocumento != '' ? @this.codDocumento : '';
+            var codIdioma = @this.codIdioma != '' ? @this.codIdioma : '';
+            var codDerecho = @this.codDerecho != '' ? @this.codDerecho : '';
+            var codRegistro = @this.codRegistro != '' ? @this.codRegistro : '';
+
             meta = $("meta[name='csrf-token']").attr("content");
             //var lastId = @this.getLastId;
             
@@ -300,7 +266,7 @@
             });
 
             function codigo(){
-                var codigoReg = codDepartamento+''+codProvincia+''+codDistrito+''+codDocumento+''+codFormato+''+codIdioma+''+codDerecho;
+                var codigoReg = codDepartamento+''+codProvincia+''+codDistrito+''+codDocumento+''+codIdioma+''+codDerecho+''+codRegistro;
                 // $('.codigo').val(codigoReg);
                 @this.generarCodigo(codigoReg); 
             }

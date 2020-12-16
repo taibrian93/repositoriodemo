@@ -17,8 +17,8 @@ class CreateRegistroArchivoTable extends Migration
             $table->id();
             $table->unsignedBigInteger('idTipoDocumento');
             $table->foreign('idTipoDocumento')->references('id')->on('tipodocumento')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('idTipoFormato');
-            $table->foreign('idTipoFormato')->references('id')->on('tipoformato')->onDelete('cascade')->onUpdate('cascade');
+            // $table->unsignedBigInteger('idTipoFormato');
+            // $table->foreign('idTipoFormato')->references('id')->on('tipoformato')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idIdioma');
             $table->foreign('idIdioma')->references('id')->on('idioma')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('idDepartamento');
@@ -34,7 +34,10 @@ class CreateRegistroArchivoTable extends Migration
 
             $table->string('titulo');
             $table->string('descripcion');
-            $table->text('enlace')->nullable();
+            $table->text('enlace');
+            $table->text('mimeType');
+            $table->string('extensionArchivo', 20);
+            $table->bigInteger('sizeFile');
             $table->char('codigo')->unique();
             $table->timestamps();
             $table->boolean('estado');

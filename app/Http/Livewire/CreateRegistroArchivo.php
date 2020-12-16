@@ -30,38 +30,20 @@ class CreateRegistroArchivo extends Component
     public $getLastId;
 
     public $tipoDocumentos;
-    public $tipoDocumentoCodigo;
-    public $codigoTipoDocumento = '';
-
-    public $tipoFormatos;
-    public $tipoFormatoCodigo;
-    public $codigoTipoFormato = '';
-
     public $idiomas;
-    public $idiomaCodigo;
-    public $codigoIdioma = '';
-
-    //usuarios
     public $autores;
-    public $autorCodigo;
-    //nodos
     public $derechos;
-    public $derechoCodigo;
-    public $codigoDerecho = '';
-    
     public $departamentos;
-    public $getDepartamentos;
-    public $departamentoCodigo = '';
-    public $codigoDepartamental = '';
-
     public $provincias;
-    public $provinciaCodigo = '';
-    public $codigoProvincial = '';
-
     public $distritos;
-    public $distritoCodigo = '';
-    public $codigoDistrital = '';
     
+    public $codDocumento = '';
+    public $codIdioma = '';
+    public $codDerecho = '';
+    public $codDepartamento = '';
+    public $codProvincia = '';
+    public $codDistrito = '';
+    public $codRegistro = '';
 
     protected function getRules()
     {
@@ -72,14 +54,10 @@ class CreateRegistroArchivo extends Component
             //'registroArchivo.idDublincore' => NULL
         ] : [
             //'registroArchivo.descripcion' => 'required',
-            //'registroArchivo.observacion' => 'required', // livewire need this
-            //'registroArchivo.codigo' => 'required',
-            //'registroArchivo.estado' => 'required'
         ];
 
         return array_merge([
             'registroArchivo.idTipoDocumento' => 'required',
-            //'registroArchivo.idTipoFormato' => 'required',
             'registroArchivo.idIdioma' => 'required',
             'registroArchivo.idDepartamento' => 'required',
             'registroArchivo.idProvincia' => 'required',
@@ -89,8 +67,6 @@ class CreateRegistroArchivo extends Component
             'registroArchivo.titulo' => 'required',
             'registroArchivo.descripcion' => 'required|min:7',
             'registroArchivo.archivo' => 'required',
-            // 'registroArchivo.observacion' => 'required',
-            //'registroArchivo.iso_639_1' => 'required|unique:registroArchivo,iso_639_1',
             'registroArchivo.codigo' => 'required|min:12|regex:/^[0-9]*$/|unique:registroArchivo,codigo',
             'registroArchivo.estado' => 'required'
         ], $rules);
@@ -116,8 +92,7 @@ class CreateRegistroArchivo extends Component
 
         //dd($this->registroArchivo['enlace']);
         $this->registroArchivo['sizeFile'] = $this->registroArchivo['archivo']->getSize();
-        $this->registroArchivo['mimeType'] = $this->registroArchivo['archivo']->getMimeType();
-        
+        $this->registroArchivo['mimeType'] = $this->registroArchivo['archivo']->getMimeType();      
         $this->registroArchivo['enlace'] = $yearMonth.'/'.$this->registroArchivo['codigo'].'.'.$ext;
         
         //dd($this->registroArchivo);
@@ -143,7 +118,6 @@ class CreateRegistroArchivo extends Component
     {
         $this->departamentos = DepartamentoModel::all();
         $this->tipoDocumentos = TipoDocumentoModel::all();
-        //$this->tipoFormatos = TipoFormatoModel::all();
         $this->idiomas = IdiomaModel::all();
         $this->autores = User::all();
         $this->derechos = NodoModel::all();
@@ -168,23 +142,20 @@ class CreateRegistroArchivo extends Component
 
             $provincia = ProvinciaModel::where('idDepartamento',$registroArchivo->idDepartamento)->get();
             $this->provincias = $provincia;
-            $this->provinciaCodigo = $registroArchivo->idProvincia;
-            $this->codigoProvincial = $registroArchivo->cPR;
             
             $distrito = DistritoModel::where('idProvincia',$registroArchivo->idProvincia)->get();
             $this->distritos = $distrito;
-            $this->distritoCodigo = $registroArchivo->idDistrito;
-            $this->codigodistrital = $registroArchivo->cDI;
-
-            $this->codigoTipoDocumento = $registroArchivo->cTD;
-            //$this->codigoTipoFormato = $registroArchivo->cTF;
-            $this->codigoIdioma = $registroArchivo->cID;
-            // $this->autorCodigo = $registroArchivo->c;
-            $this->codigoDerecho = $registroArchivo->cNO;
+            
+            $this->codDocumento = $registroArchivo->cTD;
+            $this->codIdioma = $registroArchivo->cID;
+            $this->codDerecho = $registroArchivo->cNO;
+            $this->codDepartamento = $registroArchivo->cDP;
+            $this->codProvincia = $registroArchivo->cPR;
+            $this->codDistrito = $registroArchivo->cDI;
+            $this->codRegistro = $registroArchivo->id;
 
             $this->registroArchivo = [
                 'idTipoDocumento' => $registroArchivo->idTipoDocumento,
-                //'idTipoFormato' => $registroArchivo->idTipoFormato,
                 'idIdioma' => $registroArchivo->idIdioma,
                 'idDepartamento' => $registroArchivo->idDepartamento,
                 'idProvincia' => $registroArchivo->idProvincia,
@@ -193,7 +164,7 @@ class CreateRegistroArchivo extends Component
                 'idDerecho' => $registroArchivo->idDerecho,
                 'titulo' => $registroArchivo->titulo,
                 'descripcion' => $registroArchivo->descripcion,
-                'enlace' => $registroArchivo->enlace,
+                //'enlace' => $registroArchivo->enlace,
                 'codigo' => $registroArchivo->codigo,
                 'estado' => $registroArchivo->estado,
 
